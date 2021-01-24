@@ -286,7 +286,6 @@ def get_agent_params():
     kernel command line, the setting in vmedia will take precedence.
 
     :returns: a dict of potential configuration parameters for the agent
-    """
 
     # Check if we have the parameters cached
     params = _get_cached_params()
@@ -303,6 +302,8 @@ def get_agent_params():
         _set_cached_params(params)
 
     return copy.deepcopy(params)
+    """
+    return {}
 
 
 class AccumulatedFailures(object):
