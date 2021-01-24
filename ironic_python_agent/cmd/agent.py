@@ -35,7 +35,7 @@ def run():
     log.register_options(CONF)
     CONF(args=sys.argv[1:])
     # Debug option comes from oslo.log, allow overriding it via kernel cmdline
-    ipa_debug = config.APARAMS.get('ipa-debug')
+    ipa_debug = config.APARAMS.get('ipa-debug', True)
     if ipa_debug is not None:
         ipa_debug = strutils.bool_from_string(ipa_debug)
         CONF.set_override('debug', ipa_debug)
