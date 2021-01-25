@@ -810,7 +810,8 @@ class StandbyExtension(base.BaseAgentExtension):
             # Sync the system hardware clock from the software clock,
             # as they are independent and the HW clock can still drift
             # with long running ramdisks.
-            utils.execute('hwclock', '-v', '--systohc')
+            # Not needed with FreeBSD
+            # utils.execute('hwclock', '-v', '--systohc')
         except (processutils.ProcessExecutionError,
                 errors.CommandExecutionError) as e:
             msg = 'Failed to sync hardware clock: %s' % e

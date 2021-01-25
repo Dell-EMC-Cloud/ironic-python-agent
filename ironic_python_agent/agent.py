@@ -221,14 +221,19 @@ class IronicPythonAgent(base.ExecuteCommandMixin):
     def _get_route_source(self, dest):
         """Get the IP address to send packages to destination."""
         try:
-            out, _err = utils.execute('ip', 'route', 'get', dest)
+            out, _ = utils.execute('route', 'get', dest)
         except (EnvironmentError, processutils.ProcessExecutionError) as e:
             LOG.warning('Cannot get route to host %(dest)s: %(err)s',
                         {'dest': dest, 'err': e})
             return
 
         try:
-            source = out.strip().split('\n')[0].split('src')[1].split()[0]
+            ifname = out.split('interface: ')[1].split('\n')[0]
+            intfs = hardware.dispatch_to_managers('list_network_interfaces')
+            source = None
+            for intf in intfs:
+                if intf.name == ifname:
+                   source = intf.ipv4_address
         except IndexError:
             LOG.warning('No route to host %(dest)s, route record: %(rec)s',
                         {'dest': dest, 'rec': out})

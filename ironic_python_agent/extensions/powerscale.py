@@ -1,10 +1,12 @@
+from ironic_python_agent import errors
+from ironic_python_agent.extensions import base
 from ironic_python_agent import utils
 from ironic_python_agent.extensions import standby
 from oslo_concurrency import processutils
 from oslo_config import cfg
 from oslo_log import log
 
-CONF = cfg.CONF
+#CONF = cfg.CONF
 LOG = log.getLogger(__name__)
 
 

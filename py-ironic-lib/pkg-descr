@@ -1,0 +1,4 @@
+A common library to be used exclusively by projects under the Ironic governance.
+
+WWW: https://docs.openstack.org/ironic-lib/latest/
+WWW: https://github.com/openstack/ironic-lib

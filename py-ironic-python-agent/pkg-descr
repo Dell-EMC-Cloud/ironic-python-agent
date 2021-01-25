@@ -1,0 +1,9 @@
+An agent for controlling and deploying Ironic controlled baremetal nodes.
+
+The ironic-python-agent works with the agent driver in Ironic to provision the node. Starting with ironic-python-agent running on a ramdisk on the unprovisioned node, Ironic makes API calls to ironic-python-agent to provision the machine. This allows for greater control and flexibility of the entire deployment process.
+
+The ironic-python-agent may also be used with the original Ironic pxe drivers as of the Kilo OpenStack release.
+
+
+WWW: https://docs.openstack.org/ironic-python-agent/latest/
+WWW: https://github.com/openstack/ironic-python-agent

@@ -19,8 +19,10 @@ import time
 from oslo_log import log
 
 from ironic_python_agent import errors
+from ironic_python_agent.extensions import base as ext_base
 from ironic_python_agent import hardware
 from ironic_python_agent import netutils
+from ironic_python_agent import tls_utils
 
 LOG = log.getLogger()
 
@@ -119,3 +121,11 @@ class DellPowerScaleHardwareManager(hardware.HardwareManager):
         cmd = ext.prepare_image(image_info=image_info, configdrive=configdrive)
         # The result is asynchronous, wait here.
         return cmd.wait()
+
+    def wait_for_disks(self):
+        pass
+
+    def generate_tls_certificate(self, ip_address):
+        """Generate a TLS certificate for the IP address."""
+        return tls_utils.generate_tls_certificate(ip_address)
+
