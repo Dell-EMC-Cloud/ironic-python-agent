@@ -290,14 +290,23 @@ def get_agent_params():
 
     # Check if we have the parameters cached
     params = _get_cached_params()
+    LOG.info('Get Agent Parameters new addition: %s', params)
     if not params:
-        params = _read_params_from_file('/proc/cmdline')
+        # Note that the port number is fixed for now
+        out, _ = execute('ip', 'route', 'get', '1.1.1.1')
+        LOG.info('Get Agent Parameters, route: %s', out)
+        intf = out.strip().split('\n')[0].split('dev')[1].split()[0]
+        out, _ = execute('ip', 'link', 'show', intf)
+        mac = out.strip().split('\n')[1].strip().split()[1]
+        execute('wget', 'http://psstack-provisioning-service:3928/%s.ipa-params' % mac, '-O', '/tmp/ipa-params')
+        params = _read_params_from_file('/tmp/ipa-params')
+        LOG.info('Get Agent Parameters, params: %s', params)
 
         # If the node booted over virtual media, the parameters are passed
         # in a text file within the virtual media floppy.
-        if params.get('boot_method') == 'vmedia':
-            vmedia_params = _get_vmedia_params()
-            params.update(vmedia_params)
+        # if params.get('boot_method') == 'vmedia':
+        #     vmedia_params = _get_vmedia_params()
+        #     params.update(vmedia_params)
 
         # Cache the parameters so that it can be used later on.
         _set_cached_params(params)
