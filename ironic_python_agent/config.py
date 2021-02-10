@@ -28,7 +28,7 @@ INSPECTION_DEFAULT_DHCP_WAIT_TIMEOUT = 60
 
 cli_opts = [
     cfg.StrOpt('api_url',
-        default=APARAMS.get('ipa-api-url', "http://192.168.122.1:6385"),
+               default=APARAMS.get('ipa-api-url'),
                regex='^(mdns|http(s?):\\/\\/.+)',
                help='URL of the Ironic API. '
                     'Can be supplied as "ipa-api-url" kernel parameter.'
@@ -37,7 +37,7 @@ cli_opts = [
                     'URL using multicast DNS service discovery.'),
 
     cfg.StrOpt('global_request_id',
-               default=APARAMS.get('ipa-global-request-id', 'req-75b07576-beb9-4ff1-a94c-2e13dccd4aa5'),
+               default=APARAMS.get('ipa-global-request-id'),
                help='Global request ID header to provide to Ironic API. '
                     'Can be supplied as "ipa-global-request-id" kernel '
                     'parameter. The value must be in form "req-<UUID>".'),
@@ -223,7 +223,7 @@ cli_opts = [
                     'Can be supplied as "ipa-disk-wait-delay" '
                     'kernel parameter.'),
     cfg.BoolOpt('insecure',
-                default=APARAMS.get('ipa-insecure', True),
+                default=APARAMS.get('ipa-insecure', False),
                 help='Verify HTTPS connections. Can be supplied as '
                      '"ipa-insecure" kernel parameter.'),
     cfg.StrOpt('cafile',

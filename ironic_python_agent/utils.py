@@ -289,24 +289,29 @@ def get_agent_params():
     kernel command line, the setting in vmedia will take precedence.
 
     :returns: a dict of potential configuration parameters for the agent
+    """
 
     # Check if we have the parameters cached
     params = _get_cached_params()
     if not params:
-        params = _read_params_from_file('/proc/cmdline')
+        out, _ = execute('route', 'get', '1.1.1.1')
+        ifname = out.split('interface: ')[1].split('\n')[0]
+        out, _ = execute('ifconfig', ifname)
+        mac_address = out.strip().split('\n')[2].split()[1]
+        execute('fetch', 'http://psstack-provisioning-service:3928/%s.ipa-params' % mac_address, '--output', '/tmp/ipa-params')
+
+        params = _read_params_from_file('/tmp/ipa-params')
 
         # If the node booted over virtual media, the parameters are passed
         # in a text file within the virtual media floppy.
-        if params.get('boot_method') == 'vmedia':
-            vmedia_params = _get_vmedia_params()
-            params.update(vmedia_params)
+        #if params.get('boot_method') == 'vmedia':
+        #    vmedia_params = _get_vmedia_params()
+        #    params.update(vmedia_params)
 
         # Cache the parameters so that it can be used later on.
         _set_cached_params(params)
 
     return copy.deepcopy(params)
-    """
-    return {}
 
 
 class AccumulatedFailures(object):
